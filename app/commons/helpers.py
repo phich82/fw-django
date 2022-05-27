@@ -5,9 +5,9 @@ from datetime import datetime as datetime
 from django.utils.translation import gettext
 from django.utils import translation
 
-from sw.commons.constant import SUPPORTED_LANGUAGES
+from app.commons.constant import SUPPORTED_LANGUAGES
 
-from sw.services.Core import Core
+from app.services.Core import Core
 
 def function_exists(name): return name in globals()
 
@@ -109,7 +109,7 @@ if not function_exists('trans'):
         if lang not in SUPPORTED_LANGUAGES:
             return f'Language `{lang}` not supported.'
 
-        translations = __import__(f'sw.lang.{lang}.translations', fromlist=[f'sw.lang.{lang}']).translations
+        translations = __import__(f'app.lang.{lang}.translations', fromlist=[f'app.lang.{lang}']).translations
 
         value = None
         is_first = True

@@ -1,6 +1,6 @@
 from django.views import generic
 
-from sw.commons.helpers import _, __, t, trans
+from app.commons.helpers import _, __, t, trans
 
 class HomeView(generic.TemplateView):
     template_name = 'home.html'

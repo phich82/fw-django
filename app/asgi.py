@@ -1,20 +1,19 @@
 """
-WSGI config for sw project.
+ASGI config for app project.
 
-It exposes the WSGI callable as a module-level variable named ``application``.
+It exposes the ASGI callable as a module-level variable named ``application``.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/4.0/howto/deployment/wsgi/
+https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 """
 
 import os
 
-from django.core.wsgi import get_wsgi_application
+from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sw.settings.production')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings.production')
 
-
-application = get_wsgi_application()
+application = get_asgi_application()
 
 # Wrap werkzeug debugger if DEBUG is on
 from django.conf import settings

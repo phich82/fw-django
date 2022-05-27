@@ -27,4 +27,4 @@ crontab -l
 crond
 
 # Start web server
-gunicorn sw.wsgi:application --bind 0.0.0.0:8000
+gunicorn app.wsgi:application --bind 0.0.0.0:8000

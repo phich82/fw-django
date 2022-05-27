@@ -1,10 +1,10 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models.base import ModelBase
 from django.db.models.query import QuerySet
-from sw.commons.constant import PER_PAGE
+from app.commons.constant import PER_PAGE
 
-from sw.services.FileService import FileService
-from sw.services.Log import Log
+from app.services.FileService import FileService
+from app.services.Log import Log
 
 class Core:
 

@@ -4,9 +4,9 @@ from urllib.parse import unquote
 from django.core.files.storage import FileSystemStorage
 from django.core.files import File, locks
 from django.core.files.move import file_move_safe
-from sw.services.Log import Log
+from app.services.Log import Log
 
-from sw.settings.base import BASE_DIR, MEDIA_ROOT, MEDIA_URL
+from app.settings.base import BASE_DIR, MEDIA_ROOT, MEDIA_URL
 
 class FileService:
     """ @var FileSystemStorage """

@@ -5,7 +5,7 @@ Register custom filters (pipes) here
 
 from django import template
 
-from sw.commons.helpers import normalize as _normalize
+from app.commons.helpers import normalize as _normalize
 
 register = template.Library()
 

@@ -7,8 +7,8 @@ from django.http import QueryDict
 from django.utils.translation import gettext_lazy as _
 from datetime import date as datetime_date, datetime as datetime_datetime, timedelta as datetime_timedelta
 
-from sw.commons.helpers import is_valid_datetime, parse_body, parse_json, parse_request, to_jsonstr
-from sw.services.Core import Core
+from app.commons.helpers import is_valid_datetime, parse_body, parse_json, parse_request, to_jsonstr
+from app.services.Core import Core
 
 def __resolve_error_message(default_message, value, field, message, verbose_field):
     errormsg = message if message is not None else default_message

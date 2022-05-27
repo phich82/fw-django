@@ -6,9 +6,9 @@ import copy
 import datetime
 from django import template
 from django.http import QueryDict
-from sw.commons.helpers import trans as translate
+from app.commons.helpers import trans as translate
 
-from sw.settings.base import BASE_DIR
+from app.settings.base import BASE_DIR
 
 register = template.Library()
 
@@ -27,11 +27,11 @@ def includejs(js_paths):
 
     return { 'js_paths': js_paths }
 
-@register.inclusion_tag('sw/script.html')
+@register.inclusion_tag('app/script.html')
 def importjs(js_path):
     return includejs(js_path)
 
-@register.inclusion_tag('sw/script.html')
+@register.inclusion_tag('app/script.html')
 def js(js_path):
     return includejs(js_path)
 
@@ -40,7 +40,7 @@ def pagination_links(context):
     context = copy.copy(context)
     return context
 
-@register.inclusion_tag('sw/error.html', takes_context=True)
+@register.inclusion_tag('app/error.html', takes_context=True)
 def error(context, field):
     errors = context.get('form').errors
     has_error = field in errors

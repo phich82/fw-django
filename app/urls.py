@@ -1,4 +1,4 @@
-"""sw URL Configuration
+"""app URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
 
-from sw.views import HomeView
+from app.views import HomeView
 
 urlpatterns = [
     path('jsi18n/', JavaScriptCatalog.as_view(), name='jsi18n'),

@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 # from catalogs.models import Csv
-from sw.commons.constant import TIME_ZONE_CSV
-from sw.services import BaseService, FileService
+from app.commons.constant import TIME_ZONE_CSV
+from app.services import BaseService, FileService
 
 import csv
 import os

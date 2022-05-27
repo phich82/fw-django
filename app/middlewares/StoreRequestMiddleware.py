@@ -1,4 +1,4 @@
-from sw.services.Core import Core
+from app.services.Core import Core
 
 class StoreRequestMiddleware:
     def __init__(self, get_response):

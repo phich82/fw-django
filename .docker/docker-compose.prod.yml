@@ -7,9 +7,9 @@ networks:
 services:
   web:
     build:
-      context: ../
+      context: ../app
       dockerfile: ./.docker/app/Dockerfile.prod
-    command: gunicorn sw.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn app.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ../:/usr/src/app/
       - static_volume:/home/app/web/staticfiles
