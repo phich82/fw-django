@@ -1,0 +1,4 @@
+{% load static %}
+{% for js_path in js_paths %}
+<script src="{% static js_path %}"></script>
+{% endfor %}

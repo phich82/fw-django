@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Image Processs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/css/jquery.Jcrop.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/0.9.15/js/jquery.Jcrop.js"></script>
+  </head>
+  <body>
+    <img src="{{ MEDIA_URL }}default_layout.png" alt="" id="image" />
+    <br />
+    <div><strong>Selected coordinates:</strong></div>
+    <div id ="selectedCor"></div>
+    <script>
+      $(document).ready(function() {
+        $('#image').Jcrop({
+          onSelect: function(c) {
+            $("#selectedCor").text("x:" + c.x + " y: " + c.y + " w: " + c.w + " h: " + c.h);
+            console.log(c);
+
+            console.log(c.x);
+            console.log(c.y);
+            console.log(c.w);
+            console.log(c.h);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
