@@ -54,6 +54,9 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'django_seed',
     'django_crontab',
+    'app.commands',
+
+    'accounts',
 ]
 
 MIDDLEWARE = [

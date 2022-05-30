@@ -14,7 +14,7 @@ def function_exists(name): return name in globals()
 if not function_exists('parse_request'):
     def parse_request(request=None):
         params = {}
-        paramsQuery = {}
+        query_params = {}
         files = None
         request = request if request else Core.request
         if request:
@@ -22,10 +22,10 @@ if not function_exists('parse_request'):
             for key in request.POST:
                 params[key] = request.POST.get(key)
             for key in request.GET:
-                paramsQuery[key] = request.GET.get(key)
+                query_params[key] = request.GET.get(key)
         return {
             'params': params,
-            'paramsQuery': paramsQuery,
+            'query_params': query_params,
             'files': files,
         }
 

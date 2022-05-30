@@ -1,0 +1,4 @@
+{% load static %}
+{% for style_path in style_paths %}
+<link href="{% static style_path.strip %}" rel="stylesheet">
+{% endfor %}

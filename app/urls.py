@@ -19,12 +19,15 @@ from django.conf.urls.static import static
 from django.urls import include, path
 from django.views.i18n import JavaScriptCatalog
 
+import accounts.urls
+
 from app.views import HomeView
 
 urlpatterns = [
     path('jsi18n/', JavaScriptCatalog.as_view(), name='jsi18n'),
     path('admin/', admin.site.urls),
-    path('', HomeView.as_view(), name='home')
+    path('', HomeView.as_view(), name='home'),
+    path('accounts', include(accounts.urls, namespace='accounts')),
 ]
 
 # User-uploaded files like profile pics need to be served in development

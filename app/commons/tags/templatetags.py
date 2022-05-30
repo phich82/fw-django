@@ -12,7 +12,34 @@ from app.settings.base import BASE_DIR
 
 register = template.Library()
 
-@register.inclusion_tag('edge/script.html')
+@register.inclusion_tag('app/style.html')
+def includecss(style_paths):
+    """Include *.css file
+
+    Args:
+        style_path (str): each css file path is separated together by comma (,)
+
+    Returns:
+        dict
+    """
+    if not isinstance(style_paths, tuple) and not isinstance(style_paths, list):
+        style_paths = style_paths.split(',')
+
+    return { 'style_paths': style_paths }
+
+@register.inclusion_tag('app/style.html')
+def importcss(style_path):
+    """Alias of `includecss` function
+    """
+    return includecss(style_path)
+
+@register.inclusion_tag('app/style.html')
+def css(style_path):
+    """Alias of `includecss` function
+    """
+    return includecss(style_path)
+
+@register.inclusion_tag('app/script.html')
 def includejs(js_paths):
     """Include the *.js files
 

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% load thumbnail %}
+
+{% block title %}{{ block.super }}Account{% endblock %}
+
+{% block container %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {% comment %} {{ form.as_table }} {% endcomment %}
+    <div class="form-group">
+        <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+        {{ form.name }}
+        {% error 'name' %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.age.id_for_label }}" class="form-label">{{ form.age.label }}</label>
+        {{ form.age }}
+        {% error 'age' %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.date.id_for_label }}" class="form-label">{{ form.date.label }}</label>
+        {{ form.date }}
+        {% error 'date' %}
+    </div>
+    <div>
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
+</form>
+
+{% comment %} <h2>Custom Select</h2>
+<div class="custom-select" style="width:200px;">
+    <select>
+      <option value="0">Select car:</option>
+      <option value="1">Audi</option>
+      <option value="2">BMW</option>
+      <option value="3">Citroen</option>
+      <option value="4">Ford</option>
+      <option value="5">Honda</option>
+      <option value="6">Jaguar</option>
+      <option value="7">Land Rover</option>
+      <option value="8">Mercedes</option>
+      <option value="9">Mini</option>
+      <option value="10">Nissan</option>
+      <option value="11">Toyota</option>
+      <option value="12">Volvo</option>
+    </select>
+</div> {% endcomment %}
+
+{% comment %} <select id="selectbox1" class="custom-select-jquery">
+    <option value="">Select an option&hellip;</option>
+    <option value="aye">Aye</option>
+    <option value="eh">Eh</option>
+    <option value="ooh">Ooh</option>
+    <option value="whoop">Whoop</option>
+</select> {% endcomment %}
+
+{% comment %} <div>
+    <label>Color</label><br/>
+    <input type="text" name="color" id="color" />
+    <input type="hidden" name="invalid_color" value="" />
+</div> {% endcomment %}
+
+{% endblock %}
