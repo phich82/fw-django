@@ -1,11 +1,13 @@
 from django import forms
+from accounts.models import Account
 
-from app.validations.rules import before_date, datetime, date, min, max, required, rules
+from app.validations.rules import before_date, between, datetime, date, min, max, required, rules
 
-
-class TestForm(forms.Form):
+class AccountForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(TestForm, self).__init__(*args, **kwargs)
+        super(AccountForm, self).__init__(*args, **kwargs)
+
+        self.fields['name'].validators = []
 
     name = forms.CharField(
         label='Name',
@@ -17,6 +19,29 @@ class TestForm(forms.Form):
             'required': 'Name is required xxx.'
         },
         validators=rules('required|required_if:"age"|not_in:("1","2","3")|size:4|color_hex3', field='name', verbose_field='Name', verbose_another_field='Age', messages={
+            'is_int': 'It must be an integer.',
+        }),
+        # validators=[required(field='name', verbose_field='Name')],
+        required=True
+    )
+
+class TestForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(TestForm, self).__init__(*args, **kwargs)
+
+        print('validators => ', self.fields['name'].validators)
+        self.fields['name'].validators.append(rules('unique:"accounts.models.Account","name",1', field='name', verbose_field='Name')[0])
+
+    name = forms.CharField(
+        label='Name',
+        help_text='Enter your name',
+        # Add attributes to elements via widget
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        error_messages = {
+            'invalid': 'Name is invalid.',
+            'required': 'Name is required xxx.'
+        },
+        validators=rules('required|required_if:"age"|not_in:("1","2","3")|size:7', field='name', verbose_field='Name', verbose_another_field='Age', messages={
             'is_int': 'It must be an integer.',
         }),
         # validators=[required(field='name', verbose_field='Name')],

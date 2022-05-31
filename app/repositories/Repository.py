@@ -1,4 +1,5 @@
 from django.db import IntegrityError, transaction
+from datetime import datetime
 
 class Repository:
 
@@ -34,3 +35,11 @@ class Repository:
         if isinstance(ids, str):
             ids = ids.split(',')
         return self.objects.filter(id__in=ids).delete()
+
+    def formated_created_at(self):
+        # return self.created_at.strftime('%d/%m/%Y')
+        return datetime.strftime(self.created_at, '%d/%m/%Y')
+
+    def formated_updated_at(self):
+        # return self.updated_at.strftime('%d/%m/%Y')
+        return datetime.strftime(self.updated_at, '%d/%m/%Y')
