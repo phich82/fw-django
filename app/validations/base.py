@@ -749,7 +749,6 @@ def rules(_rules, field=None, messages=None, verbose_field=None, data=None, **kw
         # More arguments
         if kwargs:
             for key, value in kwargs.items():
-                print(key, value)
                 args += f",{key}='{value}'"
 
         args = args.strip(',')

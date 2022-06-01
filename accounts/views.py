@@ -12,8 +12,6 @@ class AccountView(generic.View):
     def get(self, request, *args, **kwargs):
         form = TestForm(request.POST, request.GET, request.FILES)
 
-        print(Core.request.session.session_key, request.session.session_key)
-
         return render(request, self.template_name, { 'form': form })
 
     def post(self, request, *args, **kwargs):

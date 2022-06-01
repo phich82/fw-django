@@ -1,4 +1,5 @@
 import os
+import shutil
 from datetime import datetime
 from urllib.parse import unquote
 from django.core.files.storage import FileSystemStorage
@@ -24,8 +25,9 @@ class FileService:
         return unquote(cls.fs().url(filename))
 
     @classmethod
-    def exists(cls, name):
-        return cls.fs().exists(name)
+    def exists(cls, url):
+        url = cls.get_absolute_url(url)
+        return os.path.exists(url)
 
     @classmethod
     def delete(cls, url):
@@ -47,7 +49,19 @@ class FileService:
 
     @classmethod
     def get_absolute_url(cls, url):
-        return "%s/%s" % (str(BASE_DIR), url.strip("/"))
+        url = "%s/%s" % (str(BASE_DIR), url.strip("/"))
+        return url
+
+    @classmethod
+    def copy(cls, src_file, dest_file, follow_symlinks=True, preserved=True):
+        if preserved == True:
+            shutil.copy2(src_file, dest_file, follow_symlinks=follow_symlinks)
+        else:
+            shutil.copy(src_file, dest_file, follow_symlinks=follow_symlinks)
+
+    @classmethod
+    def copyfileobj(cls, src_file_object, dest_file_object, length=0):
+        shutil.copyfileobj(src_file_object, dest_file_object, length=length)
 
     @staticmethod
     def __upload_path():

@@ -84,9 +84,7 @@ class CsvService(BaseService):
             # Delete csv file (backup)
             if os.path.exists(bk_csv_path):
                 os.remove(bk_csv_path)
-            print(track)
         except Exception as e:
-            print(str(e))
             # Delete the writing csv file
             if os.path.exists(csv_path):
                 os.remove(csv_path)
