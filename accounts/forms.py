@@ -1,7 +1,8 @@
 from django import forms
 from accounts.models import Account
+from app.validations.base import after_date
 
-from app.validations.rules import before_date, between, datetime, date, min, max, required, rules
+from app.validations.rules import after, before_date, between, datetime, date, min, max, required, rules
 
 class AccountForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -19,7 +20,8 @@ class AccountForm(forms.Form):
             'invalid': 'Name is invalid.',
             'required': 'Name is required xxx.'
         },
-        validators=rules('required|required_if:"age"|not_in:("1","2","3")|size:4|color_hex3',
+        # validators=rules('required|required_if:"age"|not_in:("1","2","3")|size:4|color_hex3',
+        validators=rules('required|required_if:age|not_in:("1","2","3")|size:4|color_hex3',
             field='name', verbose_field='Name', verbose_another_field='Age',
             messages={
                 'is_int': 'It must be an integer.',
@@ -33,7 +35,7 @@ class TestForm(forms.Form):
 
         # Add new more rules to validators
         self.fields['name'].validators.append(
-            rules('unique:"accounts.models.Account","name",1', field='name', verbose_field='Name')[0]
+            rules('unique:accounts.models.Account,name,1', field='name', verbose_field='Name')[0]
         )
 
     name = forms.CharField(
@@ -42,16 +44,16 @@ class TestForm(forms.Form):
         help_text='Enter your name',
         # Add attributes to elements via widget
         widget=forms.TextInput(attrs={'class': 'form-control'}),
+        validators=rules('required|required_if:age|not_in:("1","2","3")|size:7',
+            field='name', verbose_field='Name', verbose_another_field='Age',
+            messages={
+                'size': 'Size must be 7.',
+            }
+        ),
         error_messages = {
             'invalid': 'Name is invalid.',
             'required': 'Name is required xxx.'
-        },
-        validators=rules('required|required_if:"age"|not_in:("1","2","3")|size:7',
-            field='name', verbose_field='Name', verbose_another_field='Age',
-            messages={
-                'is_int': 'It must be an integer.',
-            }
-        )
+        }
     )
 
     age = forms.FloatField(
@@ -61,22 +63,23 @@ class TestForm(forms.Form):
         # Add attributes to elements via widget
         widget=forms.NumberInput(attrs={'class': 'form-control'}),
         validators=[
-            # min(10, verbose_field='Age field', message='It must be greater than %s.' % 10),
-            max(30, verbose_field='Age field'),
+            max(30, field='age', verbose_field='Age field'),
         ],
         error_messages = {
-            'invalid': 'Age is required.',
-            'required': ''
-        },
+            'invalid': 'Age is invalid.',
+            'required': 'Age is required.'
+        }
     )
 
     start_date = forms.DateTimeField(
         required=True,
         label='Start date',
         help_text='Enter your start date',
-        input_formats=['%d/%m/%Y %H:%M'],
+        # input_formats=['%d/%m/%Y %H:%M'],
+        input_formats=['%d/%m/%Y'],
         widget=forms.DateTimeInput(
-            format='%d/%m/%Y %H:%M',
+            # format='%d/%m/%Y %H:%M',
+            format='%d/%m/%Y',
             attrs={
                 'class': 'form-control',
                 'name': 'start_date',
@@ -85,8 +88,7 @@ class TestForm(forms.Form):
             }
         ),
         validators=[
-            date('%d/%m/%Y', verbose_field='Start date'),
-            # before_date('now', verbose_field='Start date')
+            date('%d/%m/%Y', field='start_date', verbose_field='Start date'),
         ],
         error_messages = {
             'invalid': 'Start date format is invalid.',
@@ -114,8 +116,8 @@ class TestForm(forms.Form):
             }
         ),
         validators=[
-            date('%d/%m/%Y', verbose_field='End date'),
-            # before_date('now', verbose_field='Start date')
+            date('%d/%m/%Y', field='end_date', verbose_field='End date'),
+            after('start_date', field='end_date', verbose_field='End date', verbose_another_field='Start date')
         ],
         error_messages = {
             'invalid': 'End date format is invalid.',

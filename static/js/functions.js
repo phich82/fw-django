@@ -1,5 +1,6 @@
 var DATETIME_PICKER_CONFIG = {
-    format: 'DD/MM/YYYY HH:mm',
+    // format: 'DD/MM/YYYY HH:mm',
+    format: 'DD/MM/YYYY',
     locale: 'en',
     icons: {
         time: 'glyphicon glyphicon-time',

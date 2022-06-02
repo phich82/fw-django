@@ -39,6 +39,14 @@ def css(style_path):
     """
     return includecss(style_path)
 
+@register.inclusion_tag('app/style.html')
+def importcsslib(lib):
+    if lib == 'spectrum':
+        return includecss('css/libs/spectrum.min.css')
+    elif lib == 'datetimepicker':
+        return includecss('css/libs/bootstrap-datetimepicker.min.css')
+    return ''
+
 @register.inclusion_tag('app/script.html')
 def includejs(js_paths):
     """Include the *.js files
@@ -61,6 +69,16 @@ def importjs(js_path):
 @register.inclusion_tag('app/script.html')
 def js(js_path):
     return includejs(js_path)
+
+@register.inclusion_tag('app/script.html')
+def importlib(lib):
+    if lib == 'datetimepicker':
+        return includejs('js/libs/bootstrap-datetimepicker.min.js')
+    elif lib == 'spectrum':
+        return includejs('js/libs/spectrum.min.js')
+    elif lib == 'moment':
+        return includejs('js/libs/moment-with-locales.min.js')
+    return ''
 
 @register.inclusion_tag('pagination.html', takes_context=True)
 def pagination_links(context):

@@ -15,9 +15,9 @@
 
   <!-- Bootstrap core css -->
   <link href="{% static 'css/libs/bootstrap.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/libs/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
-  <link href="{% static 'css/libs/spectrum.min.css' %}" rel="stylesheet">
 
+  <!-- Holder library styles -->
+  {% block styleslib %}{% endblock styleslib %}
 
   <!-- Global styles -->
   <link href="{% static 'css/main.css' %}" rel="stylesheet">
@@ -106,16 +106,19 @@
   </div>
   {% endblock %}
 
-  <!-- JavaScripts -->
+  <!-- Javascript libraries -->
   <script src="{% static 'js/libs/jquery-1.12.4.min.js' %}"></script>
   <script src="{% static 'js/libs/jquery-ui.min.js' %}"></script>
   <script src="{% static 'js/libs/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/libs/spectrum.min.js' %}"></script>
-  <script src="{% static 'js/libs/moment-with-locales.min.js' %}"></script>
+
+  <!-- Holder javascript libraries -->
+  {% block scriptslib %}{% endblock scriptslib %}
+
   <script src="{% url 'jsi18n' %}"></script>
   <script src="{% static 'js/functions.js' %}"></script>
   <script src="{% static 'js/app.js' %}"></script>
 
+  <!-- Holder javascripts -->
   {% block scripts %}{% endblock scripts %}
 </body>
 </html>

@@ -20,11 +20,14 @@ class BaseService:
         for key in filters:
             if key in self._allowed_filters:
                 value = filters[key]
-                filter = self._allowed_filters[key]
+                key = self._allowed_filters[key]
                 if isinstance(value, str):
-                    queryset = eval(f"queryset.{filter}('{value}')")
-                else:
-                    queryset = eval(f"queryset.{filter}({value})")
+                    value = f"'{value}'"
+                elif isinstance(value, list) or isinstance(value, tuple):
+                    values = []
+                    for v in value: values.append(f"'{v}'")
+                    value = ','.join(values)
+                queryset = eval(f"queryset.{key}({value})")
         return queryset
 
     @property
@@ -33,4 +36,6 @@ class BaseService:
         return {
             'orderby': 'order_by',
             'order_by': 'order_by',
+            'only': 'only',
+            'defer': 'defer',
         }

@@ -110,12 +110,19 @@ def before_date(date_value, field=None, message=None, verbose_field=None, data=N
         elif _date == 'yesterday':
             _date = datetime_date.today() + datetime_timedelta(days=-1)
         else: # invalid format
-            errormsg = message if message is not None else _('%(field)s is invalid date format.')
-            if verbose_field is not None:
-                value = verbose_field
-            elif field is not None:
-                value = field
-            raise ValidationError(errormsg, params={ 'field': value, 'date': _date })
+            # Verify value as another field
+            input_data = parse_request()['params']
+            if date_value not in input_data:
+                errormsg = message if message is not None else _('%(field)s is invalid date format.')
+                if verbose_field is not None:
+                    value = verbose_field
+                elif field is not None:
+                    value = field
+                raise ValidationError(errormsg, params={ 'field': value, 'date': _date })
+
+            another_value = input_data[date_value]
+            _date = another_value
+            value = input_data[field]
 
         if (value >= _date):
             errormsg = message if message is not None else _('%(field)s must be before %(date)s.')
@@ -164,12 +171,19 @@ def after_date(date_value, field=None, message=None, verbose_field=None, data=No
         elif _date == 'yesterday':
             _date = now + datetime_timedelta(days=-1)
         else: # invalid format
-            errormsg = message if message is not None else _('%(field)s is invalid date format.')
-            if verbose_field is not None:
-                value = verbose_field
-            elif field is not None:
-                value = field
-            raise ValidationError(errormsg, params={ 'field': value, 'date': _date })
+            # Verify value as another field
+            input_data = parse_request()['params']
+            if date_value not in input_data:
+                errormsg = message if message is not None else _('%(field)s is invalid date format.')
+                if verbose_field is not None:
+                    value = verbose_field
+                elif field is not None:
+                    value = field
+                raise ValidationError(errormsg, params={ 'field': value, 'date': _date })
+
+            another_value = input_data[date_value]
+            _date = another_value
+            value = input_data[field]
 
         if (value <= _date):
             errormsg = message if message is not None else _('%(field)s must be after %(date)s.')
@@ -275,7 +289,7 @@ def email(field=None, message=None, verbose_field=None, data=None, **kwargs):
 def date(*format, field=None, message=None, verbose_field=None, data=None, **kwargs):
     def _date(value):
         input_data = parse_request()
-        value = input_data['params']['date']
+        value = input_data['params'][field]
         _format = '%Y-%m-%d'
         if len(format) > 0:
             _format = format[0]
@@ -283,7 +297,7 @@ def date(*format, field=None, message=None, verbose_field=None, data=None, **kwa
             # Parse a date by specified format
             datetime_datetime.strptime(value, _format)
         except:
-            errormsg = message if message is not None else _('%(field)s has invalid datetime value or format.')
+            errormsg = message if message is not None else _('%(field)s has invalid value or format.')
             if verbose_field is not None:
                 value = verbose_field
             elif field is not None:
@@ -515,7 +529,7 @@ def in_list(given_list, field=None, message=None, verbose_field=None, data=None,
             raise ValidationError(errormsg, params={ 'field': value })
         # If it is not in the given list
         if value not in given_list:
-            errormsg = message if message is not None else _('%(field)s must be in list [%(given_list)s].')
+            errormsg = message if message is not None else _('%(field)s must be in list (%(given_list)s).')
             if verbose_field is not None:
                 value = verbose_field
             elif field is not None:
@@ -538,7 +552,7 @@ def not_in(given_list, field=None, message=None, verbose_field=None, data=None, 
             raise ValidationError(errormsg, params={ 'field': value })
         # If it is in the given list
         if value in given_list:
-            errormsg = message if message is not None else _('%(field)s must not be in list [%(given_list)s].')
+            errormsg = message if message is not None else _('%(field)s must not be in list (%(given_list)s).')
             if verbose_field is not None:
                 value = verbose_field
             elif field is not None:
@@ -647,7 +661,7 @@ def alpha_numeric(field=None, message=None, verbose_field=None, data=None, **kwa
 @input
 def size(num, field=None, message=None, verbose_field=None, data=None, **kwargs):
     def _size(value):
-        if len(value) != num:
+        if len(value) != int(num):
             errormsg = message if message is not None else _('Size of %(field)s must be %(num)s.')
             if verbose_field is not None:
                 value = verbose_field
@@ -723,11 +737,17 @@ def rules(_rules, field=None, messages=None, verbose_field=None, data=None, **kw
         split = str(rule).split(':')
         rule = split.pop(0)
         args = ''
-
         # Resolve arguments
         if len(split) > 0: # Arguments required
             message = None
-            args += ','.join(map(lambda x : str(x), split))
+
+            # Verify types of argument values are string or tuple
+            if not re.search(r'^\(.*\)$', split[0], re.IGNORECASE):
+                # Add '' to each values of parameters if it is a string
+                _args = split[0].split(',')
+                split[0] = ','.join(map(lambda x : f"'{x}'" if isinstance(x, str) else x, _args))
+
+            args += ','.join(split)
 
         # Error message
         if isinstance(messages, dict) and rule in messages:

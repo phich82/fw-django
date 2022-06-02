@@ -18,6 +18,12 @@ class CsvService(BaseService):
         queryset = self.csv.objects.select_related('user')
         return self.build_query_set(queryset, **filters).all()
 
+    def get_only(self, *fields, only_value=False):
+        if only_value:
+            return self.csv.objects.values_list(*fields).all()
+        else:
+            return self.csv.objects.values(*fields).all()
+
     def create(self, **params):
         return self.csv.objects.create(**params)
 

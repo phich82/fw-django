@@ -1,7 +1,7 @@
 import json
 import re
 from django.core import serializers
-from datetime import datetime as datetime
+from datetime import datetime
 from django.utils.translation import gettext
 from django.utils import translation
 
@@ -93,6 +93,16 @@ if not function_exists('normalize'):
         if len(parts) > 1 and int(parts[1]) == 0:
             n = int(parts[0])
         return n
+
+if not function_exists('timestamp'):
+    """ Get timestamp string without dot mark """
+    def timestamp(prefix='', suffix='', dot=False):
+        if prefix: prefix += '_'
+        if suffix: suffix = '_' + suffix
+        timestamp = str(datetime.now().timestamp())
+        if not dot:
+            timestamp = timestamp.replace('.', '')
+        return prefix + timestamp + suffix
 
 if not function_exists('trans'):
     def trans(key, lang='en', options={}):
