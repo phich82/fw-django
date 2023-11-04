@@ -127,3 +127,8 @@ Run seeds:
 Revert seeds:
 
     sh revert_seed.sh
+
+### Format *.sh file
+    dos2unix <path-to-sh-file>
+
+    dos2unix ./entrypoint.sh
