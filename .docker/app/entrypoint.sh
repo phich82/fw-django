@@ -12,13 +12,16 @@ then
     echo "PostgreSQL started"
 fi
 
+echo "ROOT DIR => ${ROOT_DIR}"
+
 # python manage.py flush --no-input
 # python manage.py migrate
 
 exec "$@"
 
 # Register cronjobs
-python manage.py crontab add
+# python manage.py crontab add
+python ${ROOT_DIR}manage.py crontab add
 
 # List cronjobs
 crontab -l
@@ -27,4 +30,5 @@ crontab -l
 crond
 
 # Start web server
-python manage.py runserver 0.0.0.0:8000
+# python manage.py runserver 0.0.0.0:8000
+python ${ROOT_DIR}manage.py runserver 0.0.0.0:8000

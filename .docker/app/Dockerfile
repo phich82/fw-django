@@ -8,21 +8,24 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV TZ=Asia/Ho_Chi_Minh
+ENV ROOT_DIR=/usr/src/app/
 
 # install psycopg2 dependencies
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev freetype-dev tzdata
 
 # install dependencies
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip
 
-RUN mkdir -p requirements
-ADD ./requirements ./requirements
-COPY ./requirements.txt .
+# RUN mkdir -p requirements
+# ADD ./requirements ./requirements
+# COPY ./requirements.txt .
 
-RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
+RUN pip install -r requirements/development.txt
 
-ENTRYPOINT [ "./.docker/app/entrypoint.sh" ]
+# ENTRYPOINT [ "./.docker/app/entrypoint.sh" ]
+ENTRYPOINT sh "${ROOT_DIR}.docker/app/entrypoint.sh"
