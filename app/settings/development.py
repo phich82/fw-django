@@ -49,6 +49,9 @@ if DEBUG:
 # LOGFILE_ROOT = BASE_DIR.parent / "logs"
 LOGFILE_ROOT = BASE_DIR / "logs"
 
+if not os.path.exists(LOGFILE_ROOT):
+    os.makedirs(LOGFILE_ROOT, exist_ok=True)
+
 # Reset logging
 # (see http://www.caktusgroup.com/blog/2015/01/27/Django-Logging-Configuration-logging_config-default-settings-logger/)
 

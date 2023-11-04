@@ -51,6 +51,9 @@ STATIC_ROOT = str(BASE_DIR / "site" / "static")
 # LOGFILE_ROOT = BASE_DIR.parent / "logs"
 LOGFILE_ROOT = BASE_DIR / "logs"
 
+if not os.path.exists(LOGFILE_ROOT):
+    os.makedirs(LOGFILE_ROOT, exist_ok=True)
+
 # Reset logging
 LOGGING_CONFIG = None
 LOGGING = {
