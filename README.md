@@ -132,3 +132,7 @@ Revert seeds:
     dos2unix <path-to-sh-file>
 
     dos2unix ./entrypoint.sh
+
+### Docker commands
+#### 1. Remove all unused images, not just dangling ones
+    docker image prune -a
